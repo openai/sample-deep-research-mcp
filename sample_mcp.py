@@ -15,7 +15,7 @@ def create_server():
         Search for cupcake orders – keyword match.
         """
         toks = query.lower().split()
-        ids = []
+        results = []
         for r in RECORDS:
             hay = " ".join(
                 [
@@ -25,8 +25,12 @@ def create_server():
                 ]
             ).lower()
             if any(t in hay for t in toks):
-                ids.append(r["id"])
-        return {"ids": ids}
+                results.append({
+                    "id": r["id"],
+                    "title": r["title"],
+                    "text": r["text"],
+                })
+        return {"results": results}
 
     @mcp.tool()
     async def fetch(id: str):
